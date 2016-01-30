@@ -1,5 +1,8 @@
 .well {
   text-align: center;
+  background: #337ab7;
+  border: #337ab7;
+  color: white;
 }
 
 .thumbnail {
@@ -34,8 +37,18 @@
   left: 250px;
 }
 
-button .btn .btn-primary {
-  text-align: center !important;
+.btn-primary {
+  text-align: center;
+  background: white;
+  border: white;
+  color: #337ab7;
+}
+
+.btn-primary:hover {
+  text-decoration: none;
+  background: white;
+  border: white;
+  color: #337ab7;
 }
 
 .text-right {
@@ -43,3 +56,4 @@ button .btn .btn-primary {
   position: relative;
   left: 600px;
 }
+

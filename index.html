@@ -21,8 +21,8 @@
 <script type="text/jsx">
   var Badge = React.createClass({
     render: function() {
-      return <button className="btn btn-primary" type="button">
-        {this.props.title} <span className="badge">{this.props.number}</span>
+      return <button className="btn btn-primary btn-lg center-block" type="button">
+        See All <span className="badge">{this.props.number}</span>
       </button>
     }
   });
@@ -97,7 +97,8 @@
           city={info.city} 
           state={info.state} 
           distance={info.distance} 
-          coupon1={couponList[0]} coupon2={couponList[1]} />)
+          coupon1={couponList[0]} 
+          coupon2={couponList[1]} />)
       });
 
       return <div>
