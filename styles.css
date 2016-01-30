@@ -57,3 +57,12 @@
   left: 600px;
 }
 
+#logo {
+  background: #337ab7;
+  text-align: center;
+  max-width: 720px;
+}
+
+#header {
+  text-align: center;
+}
