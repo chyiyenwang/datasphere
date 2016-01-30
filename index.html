@@ -1,0 +1,96 @@
+<head>
+  <script src="https://fb.me/react-0.14.7.js"></script>
+  <script src="https://fb.me/react-dom-0.14.7.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 target">
+      </div>
+    </div>
+  </div>
+</body>
+
+<script type="text/jsx">
+  var Badge = React.createClass({
+    render: function() {
+      return <button className="btn btn-primary" type="button">
+        {this.props.title} <span className="badge">{this.props.number}</span>
+      </button>
+    }
+  });
+
+  var Thumbnail = React.createClass({
+    render: function() {
+      return <div className="thumbnail">
+        <img src={this.props.imageUrl} />
+          <div className="pic">
+            <img src={this.props.imageThumbnail}></img>
+            <h3>{this.props.header}</h3>
+          </div>
+        <div className="caption">
+          <p>
+            <h1><div className="well">{this.props.name}</div></h1>
+          </p>
+          <hr />
+          <p>
+            <h3>{this.props.coupon1}</h3>
+          </p>
+          <hr />
+          <p>
+            <h3>{this.props.coupon2}</h3>
+          </p>
+          <hr />
+          <p>
+            <Badge title={this.props.title} number={this.props.number} />
+          </p>
+        </div>
+      </div>
+    }
+  });
+
+  var ThumbnailList = React.createClass({
+    render: function() {
+      var list = this.props.thumbnailData.map(function(thumbnailProps){
+        return <Thumbnail {...thumbnailProps} />
+      });
+
+      return <div>
+        {list}
+      </div>
+    }
+  });
+
+  var options = {
+    thumbnailData:  [{
+      header: 'Nutritionists',
+      name: 'Sound Nourishment Nutritional Counseling',
+      imageThumbnail: 'http://content.secondspace.com/frontend-test/tile1-logo.jpg',
+      imageUrl: 'http://content.secondspace.com/frontend-test/tile1-main.jpg',
+      coupon1: '20% off Regular Price for Cash-Paying Clients',
+      coupon2: 'Refer a Friend, Get 25% Off Next Visit'
+    },{
+      title: 'See All',
+      number: 4,
+      header: 'Indian Restaurants',
+      name: 'Mahajara Cuisine of India',
+      imageThumbnail: 'http://content.secondspace.com/frontend-test/tile2-logo.jpg',
+      imageUrl: 'http://content.secondspace.com/frontend-test/tile2-main.jpg',
+      coupon1: '$15 certificate for $6 A 60% Savings!',
+      coupon2: '$25 certificate for $10 A 60% Savings!'
+    },{
+      header: 'Toy Store',
+      name: 'Toys R Us',
+      imageThumbnail: 'http://content.secondspace.com/frontend-test/tile3-logo.jpg',
+      imageUrl: 'http://content.secondspace.com/frontend-test/tile3-main.jpg',
+      coupon1: '15% OFF all Bathtubs & Bath Accessories',
+      coupon2: '20% OFF all Humidifiers Vaporizers & Air Purifiers'
+    }]
+  };
+
+  var element = React.createElement(ThumbnailList, options);
+  ReactDOM.render(element, document.querySelector('.target'));
+</script>
