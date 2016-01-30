@@ -3,7 +3,6 @@
   <script src="https://fb.me/react-dom-0.14.7.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-  <script src="geolocation.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
@@ -22,7 +21,7 @@
   var Badge = React.createClass({
     render: function() {
       return <button className="btn btn-primary btn-lg center-block" type="button">
-        See All <span className="badge">{this.props.number}</span>
+        {this.props.title} <span className="badge">{this.props.number}</span>
       </button>
     }
   });
@@ -87,8 +86,8 @@
       });
     },
     render: function() {
-      var list = this.state.thumbnailData.map(function(info){
-        var couponList = info.coupons.map(function(coup) {
+      list = this.state.thumbnailData.map(function(info){
+        couponList = info.coupons.map(function(coup) {
           return coup.title;
         });
         return (<Thumbnail 
