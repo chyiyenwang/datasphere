@@ -2,13 +2,17 @@
   <script src="https://fb.me/react-0.14.7.js"></script>
   <script src="https://fb.me/react-dom-0.14.7.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="geolocation.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 target">
+  <div id="logo">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 target" id="target">
+        </div>
       </div>
     </div>
   </div>
@@ -26,10 +30,13 @@
   var Thumbnail = React.createClass({
     render: function() {
       return <div className="thumbnail">
-        <img src={this.props.imageUrl} />
+        <div className="location">
+            <h4>&nbsp;&nbsp;&nbsp;<img src='http://content.secondspace.com/frontend-test/pin.png'> {this.props.city}, {this.props.state} <span className="pull-right">{this.props.distance} mi&nbsp;&nbsp;</span></img></h4>
+        </div>
+        <img src='http://content.secondspace.com/frontend-test/tile1-main.jpg' />
           <div className="pic">
-            <img src={this.props.imageThumbnail}></img>
-            <h3>{this.props.header}</h3>
+            <img src='http://content.secondspace.com/frontend-test/tile1-logo.jpg'></img>
+            <h4>{this.props.category}</h4>
           </div>
         <div className="caption">
           <p>
@@ -53,9 +60,37 @@
   });
 
   var ThumbnailList = React.createClass({
+    getInitialState: function() {
+      return {thumbnailData: []};
+    },
+    componentDidMount: function() {
+      this.locate();
+    },
+    locate: function() {
+      var self = this;
+      var locationArray = [];
+      var prefix = 'http://codingchallenge.datasphere.com:8084/getbusinesses/?location='
+
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        var geo = pos.coords;
+
+        locationArray = [geo.latitude, geo.longitude]
+        $.ajax(prefix + locationArray.toString() + '&pg=1&pz=10', 
+          {
+            method: 'GET',
+            dataType: 'jsonp',
+            success: function(data) {
+              self.setState({thumbnailData: data.businesses})
+            }
+          }
+        )
+      });
+    },
     render: function() {
-      var list = this.props.thumbnailData.map(function(thumbnailProps){
-        return <Thumbnail {...thumbnailProps} />
+      // var blah = this.state.business;
+      console.log(this.state.thumbnailData)
+      var list = this.state.thumbnailData.map(function(info){
+        return (<Thumbnail name={info.businessname} category={info.category} city={info.city} state={info.state} distance={info.distance} />)
       });
 
       return <div>
@@ -63,33 +98,6 @@
       </div>
     }
   });
-
-  var options = {
-    thumbnailData:  [{
-      header: 'Nutritionists',
-      name: 'Sound Nourishment Nutritional Counseling',
-      imageThumbnail: 'http://content.secondspace.com/frontend-test/tile1-logo.jpg',
-      imageUrl: 'http://content.secondspace.com/frontend-test/tile1-main.jpg',
-      coupon1: '20% off Regular Price for Cash-Paying Clients',
-      coupon2: 'Refer a Friend, Get 25% Off Next Visit'
-    },{
-      title: 'See All',
-      number: 4,
-      header: 'Indian Restaurants',
-      name: 'Mahajara Cuisine of India',
-      imageThumbnail: 'http://content.secondspace.com/frontend-test/tile2-logo.jpg',
-      imageUrl: 'http://content.secondspace.com/frontend-test/tile2-main.jpg',
-      coupon1: '$15 certificate for $6 A 60% Savings!',
-      coupon2: '$25 certificate for $10 A 60% Savings!'
-    },{
-      header: 'Toy Store',
-      name: 'Toys R Us',
-      imageThumbnail: 'http://content.secondspace.com/frontend-test/tile3-logo.jpg',
-      imageUrl: 'http://content.secondspace.com/frontend-test/tile3-main.jpg',
-      coupon1: '15% OFF all Bathtubs & Bath Accessories',
-      coupon2: '20% OFF all Humidifiers Vaporizers & Air Purifiers'
-    }]
-  };
 
   var element = React.createElement(ThumbnailList, options);
   ReactDOM.render(element, document.querySelector('.target'));
