@@ -22,16 +22,10 @@
 </body>
 
 <script type="text/jsx">
-  var couponList = [];
   var Badge = React.createClass({
     render: function() {
-      // var seeAll
-      // if (this.state.couponList.length > 2) {
-        seeAll = 'See All'
-      // }
-      console.log(this.props.coupon1);
       return <button className="btn btn-primary btn-lg center-block" type="button">
-        {seeAll} <span className="badge">{this.props.number}</span>
+        {this.props.title} <span className="badge">{this.props.number}</span>
       </button>
     }
   });
@@ -96,8 +90,8 @@
       });
     },
     render: function() {
-      list = this.state.thumbnailData.map(function(info){
-        couponList = info.coupons.map(function(coup) {
+      var list = this.state.thumbnailData.map(function(info){
+        var couponList = info.coupons.map(function(coup) {
           return coup.title;
         });
         return (<Thumbnail 
