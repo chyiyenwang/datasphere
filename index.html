@@ -87,10 +87,17 @@
       });
     },
     render: function() {
-      // var blah = this.state.business;
-      console.log(this.state.thumbnailData)
       var list = this.state.thumbnailData.map(function(info){
-        return (<Thumbnail name={info.businessname} category={info.category} city={info.city} state={info.state} distance={info.distance} />)
+        var couponList = info.coupons.map(function(coup) {
+          return coup.title;
+        });
+        return (<Thumbnail 
+          name={info.businessname} 
+          category={info.category} 
+          city={info.city} 
+          state={info.state} 
+          distance={info.distance} 
+          coupon1={couponList[0]} coupon2={couponList[1]} />)
       });
 
       return <div>
@@ -99,6 +106,6 @@
     }
   });
 
-  var element = React.createElement(ThumbnailList, options);
+  var element = React.createElement(ThumbnailList);
   ReactDOM.render(element, document.querySelector('.target'));
 </script>
